@@ -1,0 +1,2 @@
+rootProject.name='NPAVHelpdeskTicket'
+include ':app'

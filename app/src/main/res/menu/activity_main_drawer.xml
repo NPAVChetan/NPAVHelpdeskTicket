@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_active_ticket"
+            android:title="@string/menu_assigned" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_close_ticket"
+            android:title="@string/menu_closed" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_all_active_ticket"
+            android:title="@string/menu_active" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/menu_logout" />
+    </group>
+</menu>
