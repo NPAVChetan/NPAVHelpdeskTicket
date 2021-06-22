@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_close_ticket"
             android:title="@string/menu_closed" />
         <item
+            android:id="@+id/nav_deleted"
+            android:icon="@drawable/ic_deleted_ticket"
+            android:title="@string/menu_deleted" />
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_all_active_ticket"
             android:title="@string/menu_active" />

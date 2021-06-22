@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         txtEmail.setText(email);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_logout)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_deleted, R.id.nav_slideshow, R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                Constants.KEY_SELECTED_MENU = destination.getLabel().toString();
                 Log.e(TAG, "onDestinationChanged: " + destination.getLabel());
                 Log.e(TAG, "onDestinationChanged: " + destination.getLabel());
             }

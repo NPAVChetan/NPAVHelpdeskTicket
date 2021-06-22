@@ -36,6 +36,12 @@
         tools:layout="@layout/fragment_closed_ticket" />
 
     <fragment
+        android:id="@+id/nav_deleted"
+        android:name="com.npav.npavhelpdeskticket.fragment.DeletedTicketFragment"
+        android:label="@string/menu_deleted"
+        tools:layout="@layout/fragment_deleted_ticket" />
+
+    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.npav.npavhelpdeskticket.fragment.ActiveTicketFragment"
         android:label="@string/menu_active"

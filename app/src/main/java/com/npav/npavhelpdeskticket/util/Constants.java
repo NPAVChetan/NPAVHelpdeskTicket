@@ -16,6 +16,7 @@ public class Constants {
     public static final String KEY_USERID = "UserId";
     public static String KEY_TICKET_ID = "TicketId";
     public static String KEY_TICKET_TYPE = "ticketType";
+    public static String KEY_SELECTED_MENU = "SelectedMenu";
 
     public static final String URL = "http://srv14.computerkolkata.com/asm/api/asmLogin";
 

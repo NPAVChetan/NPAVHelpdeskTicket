@@ -116,17 +116,26 @@ public class TicketChatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.menu_main, menu);
-        menu.add(0, 1, 1, menuIconWithText(getResources().getDrawable(R.drawable.ic_send_black_24dp), getResources().getString(R.string.write_message)));
-        menu.add(0, 2, 2, menuIconWithText(getResources().getDrawable(R.drawable.ic_pencil_24), getResources().getString(R.string.add_note)));
-        menu.add(0, 3, 3, menuIconWithText(getResources().getDrawable(R.drawable.ic_close_24), getResources().getString(R.string.close_ticket)));
-        menu.add(0, 4, 4, menuIconWithText(getResources().getDrawable(R.drawable.ic_delete_24), getResources().getString(R.string.delete_ticket)));
-        return true;
+        String selected_menu = Constants.KEY_SELECTED_MENU;
+        if (selected_menu.equalsIgnoreCase("Closed")) {
+            menu.add(0, 4, 4, menuIconWithText(getResources().getDrawable(R.drawable.ic_delete_24), getResources().getString(R.string.delete_ticket)));
+            return true;
+        } else if (selected_menu.equalsIgnoreCase("Deleted")) {
+            return true;
+        } else {
+            menu.add(0, 1, 1, menuIconWithText(getResources().getDrawable(R.drawable.ic_send_black_24dp), getResources().getString(R.string.write_message)));
+            menu.add(0, 2, 2, menuIconWithText(getResources().getDrawable(R.drawable.ic_pencil_24), getResources().getString(R.string.add_note)));
+            menu.add(0, 3, 3, menuIconWithText(getResources().getDrawable(R.drawable.ic_close_24), getResources().getString(R.string.close_ticket)));
+            menu.add(0, 4, 4, menuIconWithText(getResources().getDrawable(R.drawable.ic_delete_24), getResources().getString(R.string.delete_ticket)));
+
+            return true;
+        }
     }
 
     private CharSequence menuIconWithText(Drawable r, String title) {
 
         r.setBounds(0, 0, r.getIntrinsicWidth(), r.getIntrinsicHeight());
-        SpannableString sb = new SpannableString("    " + title);
+        SpannableString sb = new SpannableString("   " + title);
         ImageSpan imageSpan = new ImageSpan(r, ImageSpan.ALIGN_BOTTOM);
         sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
