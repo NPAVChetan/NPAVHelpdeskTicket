@@ -41,7 +41,6 @@ import static com.npav.npavhelpdeskticket.util.CommonMethods.showProgressDialog;
 public class
 ClosedTicketFragment extends Fragment {
 
-    //    private HomeViewModel homeViewModel;
     TicketListAdapter ticketListAdapter;
     private onClickInterface onclickInterface;
     List<Tickets.Data> ticketList = new ArrayList<>();
@@ -89,6 +88,7 @@ ClosedTicketFragment extends Fragment {
     }
 
     private void callGetTicketAPI(Tickets obj) {
+        Toast.makeText(getActivity(), "Closed", Toast.LENGTH_SHORT).show();
         showProgressDialog(getActivity(), "");
         sharedpreferences = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);
@@ -119,11 +119,12 @@ ClosedTicketFragment extends Fragment {
                         if (ticketList != null) {
                             if (ticketList.size() > 0) {
                                 // Add or Update all tickets to database
+                                empty_view.setVisibility(View.GONE);
                                 db = new DatabaseHandler(getActivity());
                                 db.add_or_update_Ticket1(ticketList);
                                 ticketListAdapter = new TicketListAdapter(getActivity(), ticketList, onclickInterface);
                                 recyclerView.setAdapter(ticketListAdapter);
-//                                recyclerView.smoothScrollToPosition(mDoctorList.size() - 1);
+//                                recyclerView.smoothScrollToPosition(ticketList.size() - 1);
                             } else {
                                 recyclerView.setVisibility(View.GONE);
                                 empty_view.setVisibility(View.VISIBLE);

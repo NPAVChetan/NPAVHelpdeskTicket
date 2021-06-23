@@ -61,7 +61,7 @@ public class AssignedTicketFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         SharedPref.init(getActivity());
-        User_Login_Info = requireActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
+        User_Login_Info = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);
 
         onclickInterface = new onClickInterface() {
@@ -93,7 +93,8 @@ public class AssignedTicketFragment extends Fragment {
         return root;
     }
 
-    private void callGetTicketAPI() {
+    public void callGetTicketAPI() {
+        Toast.makeText(getActivity(), "Assigned To Me", Toast.LENGTH_SHORT).show();
         showProgressDialog(getActivity(), "");
         sharedpreferences = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);
@@ -125,6 +126,7 @@ public class AssignedTicketFragment extends Fragment {
                     if (status.equals("true")) {
                         if (ticketList.size() > 0) {
                             // Add or Update all tickets to database
+                            empty_view.setVisibility(View.GONE);
                             db = new DatabaseHandler(getActivity());
                             db.add_or_update_Ticket1(ticketList);
                             ticketListAdapter = new TicketListAdapter(getActivity(), ticketList, onclickInterface);
@@ -140,7 +142,7 @@ public class AssignedTicketFragment extends Fragment {
                             editor.putString("isLoggedIn", "");
                             editor.apply();
                             startActivity(new Intent(getActivity(), LoginActivity.class));
-                            requireActivity().finish();
+                            getActivity().finish();
                         } else {
                             Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
                         }
@@ -154,7 +156,7 @@ public class AssignedTicketFragment extends Fragment {
                             editor.putString("isLoggedIn", "");
                             editor.apply();
                             startActivity(new Intent(getActivity(), LoginActivity.class));
-                            requireActivity().finish();
+                            getActivity().finish();
                         } else {
                             Toast.makeText(getActivity(), jObjError.getString("info"), Toast.LENGTH_LONG).show();
                         }

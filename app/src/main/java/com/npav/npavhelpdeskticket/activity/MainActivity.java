@@ -1,5 +1,6 @@
 package com.npav.npavhelpdeskticket.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -23,6 +26,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.npav.npavhelpdeskticket.R;
+import com.npav.npavhelpdeskticket.fragment.ActiveTicketFragment;
+import com.npav.npavhelpdeskticket.fragment.AssignedTicketFragment;
+import com.npav.npavhelpdeskticket.fragment.ClosedTicketFragment;
+import com.npav.npavhelpdeskticket.fragment.DeletedTicketFragment;
 import com.npav.npavhelpdeskticket.util.Constants;
 import com.npav.npavhelpdeskticket.util.SharedPref;
 
@@ -70,6 +77,37 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                if (Constants.KEY_SELECTED_MENU.equalsIgnoreCase("Assigned To Me")) {
+                    Fragment fragment = new AssignedTicketFragment();
+                    moveToFragment(fragment);
+                } else if (Constants.KEY_SELECTED_MENU.equalsIgnoreCase("Closed")) {
+                    Fragment fragment = new ClosedTicketFragment();
+                    moveToFragment(fragment);
+                } else if (Constants.KEY_SELECTED_MENU.equalsIgnoreCase("Deleted")) {
+                    Fragment fragment = new DeletedTicketFragment();
+                    moveToFragment(fragment);
+                } else if (Constants.KEY_SELECTED_MENU.equalsIgnoreCase("All Active")) {
+                    Fragment fragment = new ActiveTicketFragment();
+                    moveToFragment(fragment);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void moveToFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+
+    }
+
+
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -77,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 Constants.KEY_SELECTED_MENU = destination.getLabel().toString();
-                Log.e(TAG, "onDestinationChanged: " + destination.getLabel());
                 Log.e(TAG, "onDestinationChanged: " + destination.getLabel());
             }
         });

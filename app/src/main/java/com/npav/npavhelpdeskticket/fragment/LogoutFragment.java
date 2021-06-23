@@ -14,9 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.npav.npavhelpdeskticket.R;
 import com.npav.npavhelpdeskticket.activity.LoginActivity;
 import com.npav.npavhelpdeskticket.activity.MainActivity;
-import com.npav.npavhelpdeskticket.R;
 import com.npav.npavhelpdeskticket.util.Constants;
 import com.npav.npavhelpdeskticket.util.SharedPref;
 
@@ -40,6 +40,7 @@ public class LogoutFragment extends Fragment {
                 .setCancelable(false)
                 .setNegativeButton("No", (dialog, which) -> {
                     dialog.dismiss();
+                    Constants.KEY_SELECTED_MENU = "Assigned To Me";
                     startActivity(new Intent(getActivity(), MainActivity.class));
                     requireActivity().finish();
                 })
