@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.npav.npavhelpdeskticket.R;
 import com.npav.npavhelpdeskticket.adapter.TicketChatAdapter;
+import com.npav.npavhelpdeskticket.api.APIInterface;
 import com.npav.npavhelpdeskticket.api.RetrofitClient;
 import com.npav.npavhelpdeskticket.pojo.PostMessage;
 import com.npav.npavhelpdeskticket.pojo.PostNote;
@@ -188,7 +189,7 @@ public class TicketChatActivity extends AppCompatActivity {
         Tickets tickets = new Tickets();
         tickets.setTicketStatus(status);
         String token = sharedpreferences.getString("token", "");
-        String url = "https://www.support.test.netprotector.net/api/ticket/web/status/" + ticket_id;
+        String url = APIInterface.BASE_URL + "api/ticket/web/status/" + ticket_id;
         Call<Tickets> call = RetrofitClient.getInstance().getMyApi().updateTicketStatus("bearer " + token, tickets, url);
         call.enqueue(new Callback<Tickets>() {
             @Override
@@ -351,7 +352,7 @@ public class TicketChatActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);
         String token = sharedpreferences.getString("token", "");
-        String url = "https://www.support.test.netprotector.net/api/ticket/web/single/" + ticket_id;
+        String url = APIInterface.BASE_URL + "api/ticket/web/single/" + ticket_id;
         Call<Ticket> call = RetrofitClient.getInstance().getMyApi().getticketdetails("bearer " + token, url);
         call.enqueue(new Callback<Ticket>() {
             @Override

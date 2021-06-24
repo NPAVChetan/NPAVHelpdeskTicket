@@ -18,7 +18,7 @@
             android:title="@string/menu_deleted" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_all_active_ticket"
+            android:icon="@drawable/ic_active_ticket"
             android:title="@string/menu_active" />
 
         <item

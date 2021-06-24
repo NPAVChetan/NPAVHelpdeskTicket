@@ -15,8 +15,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Url;
 
 public interface APIInterface {
-    //    String BASE_URL = "https://www.support.test.netprotector.net/";
     String BASE_URL = "https://www.support.test.netprotector.net/";
+//    String BASE_URL = "https://www.support.netprotector.net/";
 
     // Authentication URL ================================================================================
     @POST("api/agent/auth/login")

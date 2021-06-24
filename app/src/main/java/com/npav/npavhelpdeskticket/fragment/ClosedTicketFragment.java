@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.npav.npavhelpdeskticket.R;
 import com.npav.npavhelpdeskticket.adapter.TicketListAdapter;
+import com.npav.npavhelpdeskticket.api.APIInterface;
 import com.npav.npavhelpdeskticket.api.RetrofitClient;
 import com.npav.npavhelpdeskticket.database.DatabaseHandler;
 import com.npav.npavhelpdeskticket.pojo.Tickets;
@@ -100,7 +101,7 @@ ClosedTicketFragment extends Fragment {
         Date post_date = new Date();
         post_date.setDate(post_date.getDate() + 2);
         String end = formatter.format(post_date);
-        String url = "https://www.support.test.netprotector.net/api/ticket/web/list/closed/" + start + "/" + end;
+        String url = APIInterface.BASE_URL + "api/ticket/web/list/closed/" + start + "/" + end;
         Call<Tickets> call = RetrofitClient.getInstance().getMyApi().getticketlist1("bearer " + token, url);
         call.enqueue(new Callback<Tickets>() {
             @Override
