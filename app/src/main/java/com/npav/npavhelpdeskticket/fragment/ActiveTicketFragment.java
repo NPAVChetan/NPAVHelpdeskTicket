@@ -87,7 +87,7 @@ public class ActiveTicketFragment extends Fragment {
     }
 
     private void callGetTicketAPI() {
-        Toast.makeText(getActivity(), "All Active", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "All Active", Toast.LENGTH_SHORT).show();
         showProgressDialog(getActivity(), "");
         sharedpreferences = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);

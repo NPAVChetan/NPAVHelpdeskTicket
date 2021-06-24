@@ -89,7 +89,7 @@ ClosedTicketFragment extends Fragment {
     }
 
     private void callGetTicketAPI(Tickets obj) {
-        Toast.makeText(getActivity(), "Closed", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Closed", Toast.LENGTH_SHORT).show();
         showProgressDialog(getActivity(), "");
         sharedpreferences = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);

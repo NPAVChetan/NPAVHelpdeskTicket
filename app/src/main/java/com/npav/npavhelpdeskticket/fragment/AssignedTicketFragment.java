@@ -95,7 +95,7 @@ public class AssignedTicketFragment extends Fragment {
     }
 
     public void callGetTicketAPI() {
-        Toast.makeText(getActivity(), "Assigned To Me", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Assigned To Me", Toast.LENGTH_SHORT).show();
         showProgressDialog(getActivity(), "");
         sharedpreferences = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);

@@ -88,7 +88,7 @@ DeletedTicketFragment extends Fragment {
     }
 
     private void callGetTicketAPI() {
-        Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
         showProgressDialog(getActivity(), "");
         sharedpreferences = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);
