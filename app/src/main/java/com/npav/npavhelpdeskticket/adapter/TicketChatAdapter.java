@@ -1,5 +1,8 @@
 package com.npav.npavhelpdeskticket.adapter;
 
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +77,16 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                 holder.relative_layout_my_message.setVisibility(View.GONE);
                 holder.relative_layout_their_message.setVisibility(View.VISIBLE);
                 holder.rl_note.setVisibility(View.GONE);
-                holder.tv_their_message.setText(msg_text);
+//                holder.tv_their_message.setText(msg_text);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Spanned st = Html.fromHtml(msg_text, Html.FROM_HTML_MODE_COMPACT);
+                    CharSequence str = CommonMethods.trimTrailingWhitespace(st);
+                    holder.tv_their_message.setText(str);
+                } else {
+                    Spanned st1 = Html.fromHtml(msg_text);
+                    CharSequence str1 = CommonMethods.trimTrailingWhitespace(st1);
+                    holder.tv_their_message.setText(str1);
+                }
 //                holder.tv_cust_name.setText(name_sender);
                 holder.tv_incoming_msg_time.setText(strMsgDetails);
 //                holder.tv_incoming_msg_time_ago.setText(time_ago);
@@ -82,15 +94,32 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                 holder.relative_layout_my_message.setVisibility(View.VISIBLE);
                 holder.relative_layout_their_message.setVisibility(View.GONE);
                 holder.rl_note.setVisibility(View.GONE);
-                holder.tv_my_message.setText(msg_text);
-//                holder.tv_agent_sender_name.setText(name_sender);
+//                holder.tv_my_message.setText(msg_text);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Spanned st = Html.fromHtml(msg_text, Html.FROM_HTML_MODE_COMPACT);
+                    CharSequence str = CommonMethods.trimTrailingWhitespace(st);
+                    holder.tv_my_message.setText(str);
+                } else {
+                    Spanned st1 = Html.fromHtml(msg_text);
+                    CharSequence str1 = CommonMethods.trimTrailingWhitespace(st1);
+                    holder.tv_my_message.setText(str1);
+                }
                 holder.tv_out_msg_actual_time.setText(strMsgDetails);
 //                holder.tv_agent_msg_ago.setText(time_ago);
             } else if (msg_type.equalsIgnoreCase("note")) {
                 holder.relative_layout_my_message.setVisibility(View.GONE);
                 holder.relative_layout_their_message.setVisibility(View.GONE);
                 holder.rl_note.setVisibility(View.VISIBLE);
-                holder.tv_note.setText(msg_text);
+//                holder.tv_note.setText(msg_text);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Spanned st = Html.fromHtml(msg_text, Html.FROM_HTML_MODE_COMPACT);
+                    CharSequence str = CommonMethods.trimTrailingWhitespace(st);
+                    holder.tv_note.setText(str);
+                } else {
+                    Spanned st1 = Html.fromHtml(msg_text);
+                    CharSequence str1 = CommonMethods.trimTrailingWhitespace(st1);
+                    holder.tv_note.setText(str1);
+                }
                 holder.tv_agent_name.setText(strMsgDetails);
 //                holder.tv_note_ago.setText(time_ago);
             } else {

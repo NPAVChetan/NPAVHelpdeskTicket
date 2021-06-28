@@ -2,6 +2,9 @@ package com.npav.npavhelpdeskticket.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.npav.npavhelpdeskticket.R;
 import com.npav.npavhelpdeskticket.activity.TicketChatActivity;
 import com.npav.npavhelpdeskticket.pojo.Tickets;
+import com.npav.npavhelpdeskticket.util.CommonMethods;
 import com.npav.npavhelpdeskticket.util.onClickInterface;
 
 import java.text.SimpleDateFormat;
@@ -59,7 +63,19 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.My
             holder.cust_name.setText(full_name);
             holder.cust_mobile.setText(mTicketList.get(position).getPhone());
             holder.cust_city.setText(mTicketList.get(position).getCity());
-            holder.message_text.setText(mTicketList.get(position).getMessage_text());
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Spanned st = Html.fromHtml(mTicketList.get(position).getMessage_text(), Html.FROM_HTML_MODE_COMPACT);
+                CharSequence str = CommonMethods.trimTrailingWhitespace(st);
+                holder.message_text.setText(str);
+            } else {
+                Spanned st1 = Html.fromHtml(mTicketList.get(position).getMessage_text());
+                CharSequence str1 = CommonMethods.trimTrailingWhitespace(st1);
+                holder.message_text.setText(str1);
+            }
+
+//            holder.message_text.setText(mTicketList.get(position).getMessage_text());
             try {
                 String[] strArr = mTicketList.get(position).getTags();
                 String tags = "";
