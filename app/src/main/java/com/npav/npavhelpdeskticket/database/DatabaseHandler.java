@@ -213,7 +213,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     values.put(KEY_TICKET_STATUS, ticket.getTicket_status());
                     values.put(KEY_TIME_STAMP_TICKET_GENERATED, ticket.getTime_stamp_ticket_generated());
                     values.put(KEY_TIME_STAMP_TICKET_RESOLVED, ticket.getTime_stamp_ticket_resolved());
-                    values.put(KEY_TAGS, ticket.getTags().toString());
+                    String[] tags = ticket.getTags();
+                    String strTags = "";
+                    if (tags != null && tags.length > 0) {
+                        for (String str : tags) {
+                            strTags = strTags + " " + str;
+                        }
+                    }
+                    values.put(KEY_TAGS, strTags);
                     values.put(KEY_CUSTOMER_ID, ticket.getCustomer_id());
                     values.put(KEY_NAME_FIRST, ticket.getName_first());
                     values.put(KEY_NAME_LAST, ticket.getName_last());
@@ -246,7 +253,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     values.put(KEY_TICKET_STATUS, ticket.getTicket_status());
                     values.put(KEY_TIME_STAMP_TICKET_GENERATED, ticket.getTime_stamp_ticket_generated());
                     values.put(KEY_TIME_STAMP_TICKET_RESOLVED, ticket.getTime_stamp_ticket_resolved());
-                    values.put(KEY_TAGS, ticket.getTags().toString());
+                    String[] tags = ticket.getTags();
+                    String strTags = "";
+                    if (tags != null && tags.length > 0) {
+                        for (String str : tags) {
+                            strTags = strTags + " " + str;
+                        }
+                    }
+                    values.put(KEY_TAGS, strTags);
                     values.put(KEY_CUSTOMER_ID, ticket.getCustomer_id());
                     values.put(KEY_NAME_FIRST, ticket.getName_first());
                     values.put(KEY_NAME_LAST, ticket.getName_last());

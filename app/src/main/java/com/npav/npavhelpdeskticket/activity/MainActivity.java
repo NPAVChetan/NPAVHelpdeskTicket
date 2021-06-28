@@ -82,17 +82,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.refresh:
+                Fragment fragment;
                 if (Constants.KEY_SELECTED_MENU.equalsIgnoreCase("Assigned To Me")) {
-                    Fragment fragment = new AssignedTicketFragment();
+                    fragment = new AssignedTicketFragment();
                     moveToFragment(fragment);
                 } else if (Constants.KEY_SELECTED_MENU.equalsIgnoreCase("Closed")) {
-                    Fragment fragment = new ClosedTicketFragment();
+                    fragment = new ClosedTicketFragment();
                     moveToFragment(fragment);
                 } else if (Constants.KEY_SELECTED_MENU.equalsIgnoreCase("Deleted")) {
-                    Fragment fragment = new DeletedTicketFragment();
+                    fragment = new DeletedTicketFragment();
                     moveToFragment(fragment);
                 } else if (Constants.KEY_SELECTED_MENU.equalsIgnoreCase("All Active")) {
-                    Fragment fragment = new ActiveTicketFragment();
+                    fragment = new ActiveTicketFragment();
                     moveToFragment(fragment);
                 }
                 return true;
@@ -102,9 +103,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void moveToFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-
+        getSupportFragmentManager().beginTransaction().remove(fragment)
+                .replace(R.id.nav_host_fragment, fragment, fragment.getClass().getSimpleName()).commit();
     }
 
 
