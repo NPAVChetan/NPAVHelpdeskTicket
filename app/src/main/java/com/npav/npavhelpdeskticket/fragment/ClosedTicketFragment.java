@@ -96,7 +96,7 @@ ClosedTicketFragment extends Fragment {
         String token = sharedpreferences.getString("token", "");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date pre_date = new Date();
-        pre_date.setDate(pre_date.getDate() - 10);
+        pre_date.setDate(pre_date.getDate() - 30);
         String start = formatter.format(pre_date);
         Date post_date = new Date();
         post_date.setDate(post_date.getDate() + 2);

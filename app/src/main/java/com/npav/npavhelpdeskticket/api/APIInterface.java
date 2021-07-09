@@ -6,12 +6,16 @@ import com.npav.npavhelpdeskticket.pojo.Ticket;
 import com.npav.npavhelpdeskticket.pojo.Tickets;
 import com.npav.npavhelpdeskticket.pojo.User;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Url;
 
 public interface APIInterface {
@@ -36,8 +40,16 @@ public interface APIInterface {
     @POST("api/ticket/web/note")
     Call<PostNote> post_note(@Header("Authorization") String token, @Body PostNote note);
 
+    @Multipart
+    @POST("api/ticket/web/note")
+    Call<PostNote> post_note1(@Header("Authorization") String token, @Part MultipartBody.Part attachment, @Part("ticketID") RequestBody ticketID, @Part("agentID") RequestBody agentID, @Part("internalNote") RequestBody internalNote);
+
+    /*@POST("api/ticket/web/message")
+    Call<PostMessage> post_message(@Header("Authorization") String token, @Body PostMessage postMessage);*/
+
+    @Multipart
     @POST("api/ticket/web/message")
-    Call<PostMessage> post_message(@Header("Authorization") String token, @Body PostMessage postMessage);
+    Call<PostMessage> post_message(@Header("Authorization") String token, @Part MultipartBody.Part attachment, @Part("ticketID") RequestBody ticketID, @Part("agentID") RequestBody agentID, @Part("ticketType") RequestBody ticketType, @Part("messageText") RequestBody messageText);
 
     @PUT
     Call<Tickets> updateTicketStatus(@Header("Authorization") String token, @Body Tickets tickets, @Url String url);

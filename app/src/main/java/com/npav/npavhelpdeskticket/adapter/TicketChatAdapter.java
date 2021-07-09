@@ -1,20 +1,26 @@
 package com.npav.npavhelpdeskticket.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.npav.npavhelpdeskticket.R;
 import com.npav.npavhelpdeskticket.pojo.Ticket;
 import com.npav.npavhelpdeskticket.util.CommonMethods;
+import com.npav.npavhelpdeskticket.util.onClickInterface;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,9 +30,13 @@ import java.util.List;
 
 public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.MyViewHolder> {
     private List<Ticket.Data.TicketDetails> mTicketChatList;
+    private Context mContext;
+    private onClickInterface mOnClickInterface;
 
-    public TicketChatAdapter(List<Ticket.Data.TicketDetails> pcList) {
+    public TicketChatAdapter(Context context, List<Ticket.Data.TicketDetails> pcList, onClickInterface onClickInterface) {
+        mContext = context;
         mTicketChatList = pcList;
+        mOnClickInterface = onClickInterface;
     }
 
     @NonNull
@@ -41,6 +51,7 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
         try {
             String msg_type = mTicketChatList.get(position).getMessage_type();
             String msg_text = mTicketChatList.get(position).getMessage_text();
+            String url_download = mTicketChatList.get(position).getUrl_download();
             String name_sender = mTicketChatList.get(position).getName_message_sender();
             String msg_time = mTicketChatList.get(position).getTime_stamp();
             DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -77,45 +88,102 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                 holder.relative_layout_my_message.setVisibility(View.GONE);
                 holder.relative_layout_their_message.setVisibility(View.VISIBLE);
                 holder.rl_note.setVisibility(View.GONE);
-//                holder.tv_their_message.setText(msg_text);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (url_download != null) {
+                        holder.iv_tm_msg_img.setVisibility(View.VISIBLE);
+                        Glide.with(mContext)
+                                .load(url_download)
+                                .centerCrop()
+                                .into(holder.iv_tm_msg_img);
+                    } else {
+                        holder.iv_tm_msg_img.setVisibility(View.GONE);
+                    }
                     Spanned st = Html.fromHtml(msg_text, Html.FROM_HTML_MODE_COMPACT);
                     CharSequence str = CommonMethods.trimTrailingWhitespace(st);
-                    holder.tv_their_message.setText(str);
+                    if (str.length() > 0) {
+                        holder.tv_their_message.setText(str);
+                    } else {
+                        holder.tv_their_message.setVisibility(View.GONE);
+                    }
                 } else {
+                    if (url_download != null) {
+                        holder.iv_tm_msg_img.setVisibility(View.VISIBLE);
+                        Glide.with(mContext)
+                                .load(url_download)
+                                .centerCrop()
+                                .into(holder.iv_tm_msg_img);
+                    } else {
+                        holder.iv_tm_msg_img.setVisibility(View.GONE);
+                    }
                     Spanned st1 = Html.fromHtml(msg_text);
                     CharSequence str1 = CommonMethods.trimTrailingWhitespace(st1);
-                    holder.tv_their_message.setText(str1);
+                    if (str1.length() > 0) {
+                        holder.tv_their_message.setText(str1);
+                    } else {
+                        holder.tv_their_message.setVisibility(View.GONE);
+                    }
                 }
-//                holder.tv_cust_name.setText(name_sender);
                 holder.tv_incoming_msg_time.setText(strMsgDetails);
-//                holder.tv_incoming_msg_time_ago.setText(time_ago);
             } else if (msg_type.equalsIgnoreCase("outgoing")) {
                 holder.relative_layout_my_message.setVisibility(View.VISIBLE);
                 holder.relative_layout_their_message.setVisibility(View.GONE);
                 holder.rl_note.setVisibility(View.GONE);
-//                holder.tv_my_message.setText(msg_text);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (url_download != null) {
+                        holder.iv_my_msg_img.setVisibility(View.VISIBLE);
+                        Glide.with(mContext)
+                                .load(url_download)
+                                .centerCrop()
+                                .into(holder.iv_my_msg_img);
+                    } else {
+                        holder.iv_my_msg_img.setVisibility(View.GONE);
+                    }
                     Spanned st = Html.fromHtml(msg_text, Html.FROM_HTML_MODE_COMPACT);
                     CharSequence str = CommonMethods.trimTrailingWhitespace(st);
                     holder.tv_my_message.setText(str);
                 } else {
+                    if (url_download != null) {
+                        holder.iv_my_msg_img.setVisibility(View.VISIBLE);
+                        Glide.with(mContext)
+                                .load(url_download)
+                                .centerCrop()
+                                .into(holder.iv_my_msg_img);
+                    } else {
+                        holder.iv_my_msg_img.setVisibility(View.GONE);
+                    }
                     Spanned st1 = Html.fromHtml(msg_text);
                     CharSequence str1 = CommonMethods.trimTrailingWhitespace(st1);
                     holder.tv_my_message.setText(str1);
                 }
                 holder.tv_out_msg_actual_time.setText(strMsgDetails);
-//                holder.tv_agent_msg_ago.setText(time_ago);
             } else if (msg_type.equalsIgnoreCase("note")) {
                 holder.relative_layout_my_message.setVisibility(View.GONE);
                 holder.relative_layout_their_message.setVisibility(View.GONE);
                 holder.rl_note.setVisibility(View.VISIBLE);
 //                holder.tv_note.setText(msg_text);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (url_download != null) {
+                        holder.iv_my_note_img.setVisibility(View.VISIBLE);
+                        Glide.with(mContext)
+                                .load(url_download)
+                                .centerCrop()
+                                .into(holder.iv_my_note_img);
+                    } else {
+                        holder.iv_my_note_img.setVisibility(View.GONE);
+                    }
                     Spanned st = Html.fromHtml(msg_text, Html.FROM_HTML_MODE_COMPACT);
                     CharSequence str = CommonMethods.trimTrailingWhitespace(st);
                     holder.tv_note.setText(str);
                 } else {
+                    if (url_download != null) {
+                        holder.iv_my_note_img.setVisibility(View.VISIBLE);
+                        Glide.with(mContext)
+                                .load(url_download)
+                                .centerCrop()
+                                .into(holder.iv_my_note_img);
+                    } else {
+                        holder.iv_my_note_img.setVisibility(View.GONE);
+                    }
                     Spanned st1 = Html.fromHtml(msg_text);
                     CharSequence str1 = CommonMethods.trimTrailingWhitespace(st1);
                     holder.tv_note.setText(str1);
@@ -127,8 +195,38 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                 holder.relative_layout_their_message.setVisibility(View.GONE);
                 holder.rl_note.setVisibility(View.GONE);
             }
+            holder.iv_my_msg_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openImageInBrowser(position);
+                }
+            });
+            holder.iv_tm_msg_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openImageInBrowser(position);
+                }
+            });
+            holder.iv_my_note_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openImageInBrowser(position);
+                }
+            });
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void openImageInBrowser(int position) {
+        mOnClickInterface.setClick(position);
+        String url_download = mTicketChatList.get(position).getUrl_download();
+        if (url_download != null) {
+            Uri uri = Uri.parse(url_download);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            if (intent.resolveActivity(mContext.getPackageManager()) != null) {
+                mContext.startActivity(intent);
+            }
         }
     }
 
@@ -141,6 +239,7 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
         TextView tv_my_message, tv_their_message, tv_note, tv_agent_name, tv_note_ago, tv_cust_name, tv_incoming_msg_time,
                 tv_incoming_msg_time_ago, tv_agent_sender_name, tv_out_msg_actual_time, tv_agent_msg_ago;
         RelativeLayout relative_layout_my_message, relative_layout_their_message, rl_note;
+        ImageView iv_my_msg_img, iv_my_note_img, iv_tm_msg_img;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -158,6 +257,9 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
 //            tv_agent_sender_name = itemView.findViewById(R.id.txt_agent_sender_name);
             tv_out_msg_actual_time = itemView.findViewById(R.id.txt_out_msg_actual_time);
 //            tv_agent_msg_ago = itemView.findViewById(R.id.tv_agent_msg_ago);
+            iv_my_msg_img = itemView.findViewById(R.id.iv_my_msg_img);
+            iv_my_note_img = itemView.findViewById(R.id.iv_my_note_img);
+            iv_tm_msg_img = itemView.findViewById(R.id.iv_tm_msg_img);
         }
     }
 }

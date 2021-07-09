@@ -11,54 +11,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:paddingStart="60dp"
+        android:paddingStart="145dp"
         android:paddingEnd="15dp">
 
-        <TextView
-            android:id="@+id/tv_mm_message_body"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_my_msg_with_image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/my_message"
-            android:elevation="2dp"
-            android:padding="10dp"
-            android:text="@string/outgoing_message"
-            android:textColor="#fff"
-            android:textSize="18sp" />
+            android:background="@drawable/my_message">
+
+            <ImageView
+                android:id="@+id/iv_my_msg_img"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_default_photo_48" />
+
+            <TextView
+                android:id="@+id/tv_mm_message_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_my_msg_img"
+                android:layout_alignParentEnd="true"
+                android:elevation="2dp"
+                android:padding="10dp"
+                android:text="@string/outgoing_message"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_agent"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_mm_message_body"
+            android:layout_below="@+id/rl_my_msg_with_image"
             android:layout_alignParentEnd="true">
-
-            <!--
-                        <TextView
-                            android:id="@+id/txt_agent_sender_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ganesh Wagh"
-                            android:textColor="#000000"
-                            android:textStyle="bold" />
-            -->
 
             <TextView
                 android:id="@+id/txt_out_msg_actual_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="9:00 am" />
-
-            <!--
-                        <TextView
-                            android:id="@+id/tv_agent_msg_ago"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@+id/txt_agent_sender_name"
-                            android:text=" 2 days ago"
-                            android:textColor="#000000" />
-            -->
 
         </RelativeLayout>
 
@@ -71,45 +65,45 @@
         android:layout_below="@id/rl_my_msg"
         android:clipToPadding="false"
         android:paddingStart="15dp"
-        android:paddingEnd="60dp">
+        android:paddingEnd="145dp">
 
-        <TextView
-            android:id="@+id/tv_tm_message_body"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_tm_msg_with_image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/their_message"
-            android:elevation="2dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp"
-            android:text="@string/incoming_msg"
-            android:textSize="18sp" />
+            android:background="@drawable/their_message">
+
+            <ImageView
+                android:id="@+id/iv_tm_msg_img"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_default_photo_48" />
+
+            <TextView
+                android:id="@+id/tv_tm_message_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_tm_msg_img"
+                android:elevation="2dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:text="@string/incoming_msg"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_customer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_tm_message_body">
-
-            <!--<TextView
-                android:id="@+id/txt_cust_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ganesh Wagh" />-->
+            android:layout_below="@+id/rl_tm_msg_with_image">
 
             <TextView
                 android:id="@+id/txt_actual_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="9:33 am" />
-
-            <!--<TextView
-                android:id="@+id/tv_cust_msg_ago"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/txt_cust_name"
-                android:text=" 2 days ago"
-                android:textColor="#000000" />-->
 
         </RelativeLayout>
     </RelativeLayout>
@@ -120,26 +114,41 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_tm_msg"
         android:clipToPadding="false"
-        android:paddingStart="60dp"
+        android:paddingStart="145dp"
         android:paddingEnd="15dp">
 
-        <TextView
-            android:id="@+id/tv_note"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_my_note_with_image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/note_background"
-            android:elevation="2dp"
-            android:padding="10dp"
-            android:text="@string/note_msg"
-            android:textColor="#000"
-            android:textSize="18sp" />
+            android:background="@drawable/note_background">
+
+            <ImageView
+                android:id="@+id/iv_my_note_img"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_default_photo_48" />
+
+            <TextView
+                android:id="@+id/tv_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_my_note_img"
+                android:layout_alignParentEnd="true"
+                android:elevation="2dp"
+                android:padding="10dp"
+                android:text="@string/note_msg"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_note_top"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_note"
+            android:layout_below="@+id/rl_my_note_with_image"
             android:layout_alignParentEnd="true">
 
             <TextView
@@ -147,25 +156,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chetan Patil" />
-
-            <!--            <TextView
-                            android:id="@+id/txt_added_note"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@+id/txt_agent_name"
-                            android:text="Added a note"
-                            android:textColor="#e9ab4d"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_note_ago"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@+id/txt_added_note"
-                            android:text=" 1 week ago"
-                            android:textColor="#000000" />-->
 
         </RelativeLayout>
 

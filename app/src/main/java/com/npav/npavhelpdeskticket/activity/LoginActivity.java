@@ -1,10 +1,12 @@
 package com.npav.npavhelpdeskticket.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
@@ -29,6 +33,8 @@ import com.npav.npavhelpdeskticket.util.SharedPref;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -50,11 +56,22 @@ public class LoginActivity extends AppCompatActivity {
     ImageView help_wApp;
     Spinner spinner;
     String prefix;
+    public static final int MULTIPLE_PERMISSIONS = 10; // code you want.
+    String[] permissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        permissions = new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
 
         SharedPref.init(this);
         User_Login_Info = getSharedPreferences(Constants.LOGIN_FILE_NAME,
@@ -149,6 +166,33 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (checkPermissions()) {
+            // permissions granted.
+        } else {
+            // show dialog informing them that we lack certain permissions
+        }
+    }
+
+    private boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p : permissions) {
+            result = ContextCompat.checkSelfPermission(context, p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
+
+
     private void callLoginAPI(User userLoginDetails) {
         showProgressDialog(context, "");
         Call<User> call = RetrofitClient.getInstance().getMyApi().login(userLoginDetails);
@@ -225,6 +269,20 @@ public class LoginActivity extends AppCompatActivity {
         Username = txtUserName.getText().toString().trim();
         Username = prefix + Username;
         Password = txtPassword.getText().toString().trim();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MULTIPLE_PERMISSIONS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permissions granted.
+                } else {
+                    // no permissions granted.
+                }
+                return;
+            }
+        }
     }
 
     @Override
