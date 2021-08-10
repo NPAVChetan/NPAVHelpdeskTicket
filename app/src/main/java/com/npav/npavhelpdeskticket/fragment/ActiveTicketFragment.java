@@ -100,7 +100,7 @@ public class ActiveTicketFragment extends Fragment {
         post_date.setDate(post_date.getDate() + 2);
         String end = formatter.format(post_date);
         String url = APIInterface.BASE_URL + "api/ticket/web/list/all/active/" + start + "/" + end;
-        Call<Tickets> call = RetrofitClient.getInstance().getMyApi().getticketlist1("bearer " + token, url);
+        Call<Tickets> call = RetrofitClient.getInstance().getMyApi().getticketlist("bearer " + token, url);
         call.enqueue(new Callback<Tickets>() {
             @Override
             public void onResponse(Call<Tickets> call, Response<Tickets> response) {

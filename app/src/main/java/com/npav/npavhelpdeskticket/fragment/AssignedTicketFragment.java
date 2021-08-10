@@ -95,7 +95,6 @@ public class AssignedTicketFragment extends Fragment {
     }
 
     public void callGetTicketAPI() {
-//        Toast.makeText(getActivity(), "Assigned To Me", Toast.LENGTH_SHORT).show();
         showProgressDialog(getActivity(), "");
         sharedpreferences = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
                 Context.MODE_PRIVATE);
@@ -109,7 +108,7 @@ public class AssignedTicketFragment extends Fragment {
         String end = formatter.format(post_date);
 
         String url = APIInterface.BASE_URL + "api/ticket/web/list/active/" + start + "/" + end;
-        Call<Tickets> call = RetrofitClient.getInstance().getMyApi().getticketlist1("bearer " + token, url);
+        Call<Tickets> call = RetrofitClient.getInstance().getMyApi().getticketlist("bearer " + token, url);
         call.enqueue(new Callback<Tickets>() {
             @Override
             public void onResponse(Call<Tickets> call, Response<Tickets> response) {

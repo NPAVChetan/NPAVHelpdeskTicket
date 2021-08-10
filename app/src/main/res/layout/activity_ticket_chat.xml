@@ -24,7 +24,7 @@
         android:background="@color/colorPrimary" />
 
     <LinearLayout
-        android:id="@+id/layout_write_message"
+        android:id="@+id/layout_create_tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

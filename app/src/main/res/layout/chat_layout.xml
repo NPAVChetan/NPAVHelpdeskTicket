@@ -23,8 +23,9 @@
             <ImageView
                 android:id="@+id/iv_my_msg_img"
                 android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_default_photo_48" />
 
             <TextView
@@ -52,7 +53,8 @@
                 android:id="@+id/txt_out_msg_actual_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9:00 am" />
+                android:text="9:00 am"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
@@ -76,8 +78,9 @@
             <ImageView
                 android:id="@+id/iv_tm_msg_img"
                 android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_default_photo_48" />
 
             <TextView
@@ -103,7 +106,8 @@
                 android:id="@+id/txt_actual_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9:33 am" />
+                android:text="9:33 am"
+                android:textSize="12sp" />
 
         </RelativeLayout>
     </RelativeLayout>
@@ -126,8 +130,9 @@
             <ImageView
                 android:id="@+id/iv_my_note_img"
                 android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_default_photo_48" />
 
             <TextView
@@ -155,7 +160,55 @@
                 android:id="@+id/txt_agent_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chetan Patil" />
+                android:text="@string/txt_name"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_assign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_note"
+        android:clipToPadding="false"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_status_assign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/assign_background">
+
+            <TextView
+                android:id="@+id/tv_assign_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:elevation="2dp"
+                android:padding="10dp"
+                android:text="@string/assign_msg"
+                android:textColor="#000"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_assign_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_status_assign"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:id="@+id/txt_assign_agent_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/txt_name"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
