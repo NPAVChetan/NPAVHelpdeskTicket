@@ -157,6 +157,12 @@ public class AssignedTicketFragment extends Fragment {
                             editor.apply();
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                             getActivity().finish();
+                        } else if (info.equalsIgnoreCase("invalid signature")) {
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString("isLoggedIn", "");
+                            editor.apply();
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                            getActivity().finish();
                         } else {
                             Toast.makeText(getActivity(), jObjError.getString("info"), Toast.LENGTH_LONG).show();
                         }

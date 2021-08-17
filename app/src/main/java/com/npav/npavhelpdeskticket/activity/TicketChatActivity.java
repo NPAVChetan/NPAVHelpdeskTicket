@@ -208,51 +208,55 @@ public class TicketChatActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        bitmap = (Bitmap) data.getExtras().get("data");
-        if (data.getData() == null) {
+        try {
             bitmap = (Bitmap) data.getExtras().get("data");
-        } else {
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            selectedImageUri = data.getData();
-            imagepath = FileUtils.getPath(this, selectedImageUri);
-            bitmap = BitmapFactory.decodeFile(imagepath);
-            sourceFile = new File(imagepath);
-            String attachment_type = Constants.KEY_ATTACHMENT_TYPE;
-            if (attachment_type.equalsIgnoreCase("Message")) {
-                showMessageAttachmentDialog();
-            } else if (attachment_type.equalsIgnoreCase("Note")) {
-                showNoteAttachmentDialog();
-            }
-        } else if (requestCode == 2 && resultCode == RESULT_OK) {
-            Toast.makeText(mContext, "Camera action.....", Toast.LENGTH_SHORT).show();
-            File f = new File(Environment.getExternalStorageDirectory().toString());
-            for (File temp : f.listFiles()) {
-                if (temp.getName().equals(curr_time)) {
-                    f = temp;
-                    break;
+            if (data.getData() == null) {
+                bitmap = (Bitmap) data.getExtras().get("data");
+            } else {
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-            try {
-                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                        bitmapOptions);
-                sourceFile = f;
-                imagepath = sourceFile.getAbsolutePath();
+            if (requestCode == 1 && resultCode == RESULT_OK) {
+                selectedImageUri = data.getData();
+                imagepath = FileUtils.getPath(this, selectedImageUri);
+                bitmap = BitmapFactory.decodeFile(imagepath);
+                sourceFile = new File(imagepath);
                 String attachment_type = Constants.KEY_ATTACHMENT_TYPE;
                 if (attachment_type.equalsIgnoreCase("Message")) {
                     showMessageAttachmentDialog();
                 } else if (attachment_type.equalsIgnoreCase("Note")) {
                     showNoteAttachmentDialog();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else if (requestCode == 2 && resultCode == RESULT_OK) {
+                Toast.makeText(mContext, "Camera action.....", Toast.LENGTH_SHORT).show();
+                File f = new File(Environment.getExternalStorageDirectory().toString());
+                for (File temp : f.listFiles()) {
+                    if (temp.getName().equals(curr_time)) {
+                        f = temp;
+                        break;
+                    }
+                }
+                try {
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                            bitmapOptions);
+                    sourceFile = f;
+                    imagepath = sourceFile.getAbsolutePath();
+                    String attachment_type = Constants.KEY_ATTACHMENT_TYPE;
+                    if (attachment_type.equalsIgnoreCase("Message")) {
+                        showMessageAttachmentDialog();
+                    } else if (attachment_type.equalsIgnoreCase("Note")) {
+                        showNoteAttachmentDialog();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
