@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         txtEmail.setText(email);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_deleted, R.id.nav_slideshow, R.id.nav_logout)
+                R.id.nav_all_active, R.id.nav_assigned_to_me, R.id.nav_closed, R.id.nav_deleted, R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -1,6 +1,7 @@
 package com.npav.npavhelpdeskticket.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.npav.npavhelpdeskticket.R;
+import com.npav.npavhelpdeskticket.activity.LoginActivity;
 import com.npav.npavhelpdeskticket.adapter.TicketListAdapter;
 import com.npav.npavhelpdeskticket.api.APIInterface;
 import com.npav.npavhelpdeskticket.api.RetrofitClient;
@@ -100,7 +102,7 @@ public class ActiveTicketFragment extends Fragment {
         post_date.setDate(post_date.getDate() + 2);
         String end = formatter.format(post_date);
         String url = APIInterface.BASE_URL + "api/ticket/web/list/all/active/" + start + "/" + end;
-        Call<Tickets> call = RetrofitClient.getInstance().getMyApi().getticketlist1("bearer " + token, url);
+        Call<Tickets> call = RetrofitClient.getInstance().getMyApi().getticketlist("bearer " + token, url);
         call.enqueue(new Callback<Tickets>() {
             @Override
             public void onResponse(Call<Tickets> call, Response<Tickets> response) {
@@ -131,11 +133,44 @@ public class ActiveTicketFragment extends Fragment {
                         }
 
                     } else if (status.equals("false")) {
-                        Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+                        if (info.equalsIgnoreCase("TokenExpiredError")) {
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString("isLoggedIn", "");
+                            editor.apply();
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                            getActivity().finish();
+                        } else {
+                            Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        try {
+                            JSONObject jObjError = new JSONObject(response.errorBody().string());
+                            info = jObjError.getString("info");
+                            if (info.equalsIgnoreCase("TokenExpiredError")) {
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString("isLoggedIn", "");
+                                editor.apply();
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                getActivity().finish();
+                            } else {
+                                Toast.makeText(getActivity(), jObjError.getString("info"), Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (Exception e) {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String in_fo = jObjError.getString("info");
+                        if (in_fo.equalsIgnoreCase("invalid signature")) {
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString("isLoggedIn", "");
+                            editor.apply();
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                            getActivity().finish();
+                        }
                         Toast.makeText(getActivity(), jObjError.getString("info"), Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();

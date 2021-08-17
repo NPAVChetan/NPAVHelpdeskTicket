@@ -45,7 +45,6 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
         try {
             String ticketId = String.valueOf(mTicketList.get(position).getTicket_id());
             holder.ticket_id.setText(String.format("#%s", ticketId));
@@ -64,7 +63,6 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.My
             holder.cust_mobile.setText(mTicketList.get(position).getPhone());
             holder.cust_city.setText(mTicketList.get(position).getCity());
 
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Spanned st = Html.fromHtml(mTicketList.get(position).getMessage_text(), Html.FROM_HTML_MODE_COMPACT);
                 CharSequence str = CommonMethods.trimTrailingWhitespace(st);
@@ -75,16 +73,31 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.My
                 holder.message_text.setText(str1);
             }
 
-//            holder.message_text.setText(mTicketList.get(position).getMessage_text());
             try {
                 String[] strArr = mTicketList.get(position).getTags();
-                String tags = "";
+//                String tags = "";
                 if (strArr != null) {
                     if (strArr.length > 0) {
-                        for (String str : strArr) {
+                        for (int i = 0; i < strArr.length; i++) {
+                            if (i == 0)
+                                holder.txt_tag.setText(" " + strArr[0] + " ");
+                            else if (i == 1) {
+                                holder.txt_tag_two.setVisibility(View.VISIBLE);
+                                holder.txt_tag_two.setText(" " + strArr[1] + " ");
+                            } else if (i == 2) {
+                                holder.txt_tag_three.setVisibility(View.VISIBLE);
+                                holder.txt_tag_three.setText(" " + strArr[2] + " ");
+                            } else if (i == 3) {
+                                holder.txt_tag_four.setVisibility(View.VISIBLE);
+                                holder.txt_tag_four.setText(" " + strArr[3] + " ");
+                            }
+                        }
+
+
+                        /*for (String str : strArr) {
                             tags = String.format("%s %s", tags, str);
                         }
-                        holder.txt_tag.setText(tags);
+                        holder.txt_tag.setText(tags + " ");*/
                     }
                 } else {
                     holder.txt_tag.setVisibility(View.GONE);
@@ -156,7 +169,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.My
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView cust_name, cust_mobile, cust_city, ticket_id, message_text, time_ago, txt_tag;
+        TextView cust_name, cust_mobile, cust_city, ticket_id, message_text, time_ago, txt_tag, txt_tag_two, txt_tag_three, txt_tag_four;
         LinearLayout parent_layout;
         ImageView ticket_type;
 
@@ -170,6 +183,9 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.My
             message_text = itemView.findViewById(R.id.message_text);
             time_ago = itemView.findViewById(R.id.time_ago);
             txt_tag = itemView.findViewById(R.id.txt_tag);
+            txt_tag_two = itemView.findViewById(R.id.txt_tag_two);
+            txt_tag_three = itemView.findViewById(R.id.txt_tag_three);
+            txt_tag_four = itemView.findViewById(R.id.txt_tag_four);
             ticket_type = itemView.findViewById(R.id.ticket_type);
         }
     }

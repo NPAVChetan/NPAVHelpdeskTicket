@@ -5,22 +5,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_all_active"
+            android:icon="@drawable/ic_active_ticket"
+            android:title="@string/menu_active" />
+        <item
+            android:id="@+id/nav_assigned_to_me"
             android:icon="@drawable/ic_active_ticket"
             android:title="@string/menu_assigned" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_closed"
             android:icon="@drawable/ic_close_ticket"
             android:title="@string/menu_closed" />
         <item
             android:id="@+id/nav_deleted"
             android:icon="@drawable/ic_deleted_ticket"
             android:title="@string/menu_deleted" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_active_ticket"
-            android:title="@string/menu_active" />
-
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"

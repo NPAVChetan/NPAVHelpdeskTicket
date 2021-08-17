@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_all_active">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.npav.npavhelpdeskticket.fragment.AssignedTicketFragment"
-        android:label="@string/menu_assigned"
-        tools:layout="@layout/fragment_assigned_ticket">
+        android:id="@+id/nav_all_active"
+        android:name="com.npav.npavhelpdeskticket.fragment.ActiveTicketFragment"
+        android:label="@string/menu_active"
+        android:tag="nav_all_active"
+        tools:layout="@layout/fragment_active_ticket">
 
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
@@ -22,7 +23,7 @@
         tools:layout="@layout/fragment_home_second">
         <action
             android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
+            app:destination="@id/nav_all_active" />
 
         <argument
             android:name="myArg"
@@ -30,27 +31,31 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_closed"
         android:name="com.npav.npavhelpdeskticket.fragment.ClosedTicketFragment"
         android:label="@string/menu_closed"
+        android:tag="nav_closed"
         tools:layout="@layout/fragment_closed_ticket" />
 
     <fragment
         android:id="@+id/nav_deleted"
         android:name="com.npav.npavhelpdeskticket.fragment.DeletedTicketFragment"
         android:label="@string/menu_deleted"
+        android:tag="nav_deleted"
         tools:layout="@layout/fragment_deleted_ticket" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.npav.npavhelpdeskticket.fragment.ActiveTicketFragment"
-        android:label="@string/menu_active"
-        tools:layout="@layout/fragment_active_ticket" />
+        android:id="@+id/nav_assigned_to_me"
+        android:name="com.npav.npavhelpdeskticket.fragment.AssignedTicketFragment"
+        android:label="@string/menu_assigned"
+        android:tag="nav_assigned"
+        tools:layout="@layout/fragment_assigned_ticket" />
 
     <fragment
         android:id="@+id/nav_logout"
         android:name="com.npav.npavhelpdeskticket.fragment.LogoutFragment"
         android:label="@string/menu_logout"
+        android:tag="nav_logout"
         tools:layout="@layout/fragment_logout" />
 
 </navigation>

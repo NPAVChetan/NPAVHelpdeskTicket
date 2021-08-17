@@ -27,6 +27,8 @@
     <string name="add_note">Add Note</string>
     <string name="close_ticket">Close Ticket</string>
     <string name="delete_ticket">Delete Ticket</string>
+    <string name="assign_ticket">Assign Ticket</string>
+    <string name="assign_ticket_self">Assign Ticket to Self</string>
     <string name="note_msg">Placeholder message\n This is my outgoing note.</string>
     <string name="outgoing_message">Placeholder message\n This is my outgoing message.</string>
     <string name="incoming_msg">How are you doing? This is a long message that should probably wrap.</string>
@@ -35,6 +37,21 @@
     <string name="user_password">Password</string>
     <string name="txt_help">Help?</string>
     <string name="log_in">Log In</string>
+    <string name="assign_to_me">Assign to Me</string>
+    <string name="assign_to_activation">Activation</string>
+    <string name="assign_to_technical">Technical</string>
+    <string name="assign_to_online">Online</string>
+    <string name="assign_to_dealer">Dealer</string>
+    <string name="assign_to_corporate">Corporate</string>
+    <string name="assign_to_sales">Sales</string>
+    <string name="assign_ticket_to_department">Assign Ticket to Department</string>
+    <string name="add_tags">Add Tags</string>
+    <string name="save">SAVE</string>
+    <string name="add_tags_here_eg_tag1_tag2">Add Tags here...(eg. tag1, tag2)</string>
+    <string name="assign_msg">Ticket #8 has been re-assigned from agent #Test Agent to agent #Test Agent.</string>
+    <string name="txt_name">Chetan Patil</string>
+    <string name="btn_close">Close</string>
+    <string name="version_1_0">Version 1.0</string>
 
     <string-array name="array_name">
         <item>Afghanistan +93</item>

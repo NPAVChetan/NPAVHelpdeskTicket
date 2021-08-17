@@ -55,7 +55,6 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
             String name_sender = mTicketChatList.get(position).getName_message_sender();
             String msg_time = mTicketChatList.get(position).getTime_stamp();
             DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-//            DateFormat outputFormat = new SimpleDateFormat("'Date : 'dd-MM-yyyy\n'Time : 'KK:mm a");
             DateFormat outputFormat = new SimpleDateFormat("'Date : 'd MMM\n'Time : 'KK:mm a");
             System.out.println(outputFormat.format(inputFormat.parse(msg_time)));
             String time = outputFormat.format(inputFormat.parse(msg_time));
@@ -88,12 +87,12 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                 holder.relative_layout_my_message.setVisibility(View.GONE);
                 holder.relative_layout_their_message.setVisibility(View.VISIBLE);
                 holder.rl_note.setVisibility(View.GONE);
+                holder.rl_assign.setVisibility(View.GONE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (url_download != null) {
                         holder.iv_tm_msg_img.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
                                 .load(url_download)
-                                .centerCrop()
                                 .into(holder.iv_tm_msg_img);
                     } else {
                         holder.iv_tm_msg_img.setVisibility(View.GONE);
@@ -110,7 +109,6 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                         holder.iv_tm_msg_img.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
                                 .load(url_download)
-                                .centerCrop()
                                 .into(holder.iv_tm_msg_img);
                     } else {
                         holder.iv_tm_msg_img.setVisibility(View.GONE);
@@ -128,12 +126,12 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                 holder.relative_layout_my_message.setVisibility(View.VISIBLE);
                 holder.relative_layout_their_message.setVisibility(View.GONE);
                 holder.rl_note.setVisibility(View.GONE);
+                holder.rl_assign.setVisibility(View.GONE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (url_download != null) {
                         holder.iv_my_msg_img.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
                                 .load(url_download)
-                                .centerCrop()
                                 .into(holder.iv_my_msg_img);
                     } else {
                         holder.iv_my_msg_img.setVisibility(View.GONE);
@@ -146,7 +144,6 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                         holder.iv_my_msg_img.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
                                 .load(url_download)
-                                .centerCrop()
                                 .into(holder.iv_my_msg_img);
                     } else {
                         holder.iv_my_msg_img.setVisibility(View.GONE);
@@ -159,14 +156,13 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
             } else if (msg_type.equalsIgnoreCase("note")) {
                 holder.relative_layout_my_message.setVisibility(View.GONE);
                 holder.relative_layout_their_message.setVisibility(View.GONE);
+                holder.rl_assign.setVisibility(View.GONE);
                 holder.rl_note.setVisibility(View.VISIBLE);
-//                holder.tv_note.setText(msg_text);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (url_download != null) {
                         holder.iv_my_note_img.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
                                 .load(url_download)
-                                .centerCrop()
                                 .into(holder.iv_my_note_img);
                     } else {
                         holder.iv_my_note_img.setVisibility(View.GONE);
@@ -179,7 +175,6 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                         holder.iv_my_note_img.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
                                 .load(url_download)
-                                .centerCrop()
                                 .into(holder.iv_my_note_img);
                     } else {
                         holder.iv_my_note_img.setVisibility(View.GONE);
@@ -189,11 +184,26 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                     holder.tv_note.setText(str1);
                 }
                 holder.tv_agent_name.setText(strMsgDetails);
-//                holder.tv_note_ago.setText(time_ago);
+            } else if (msg_type.equalsIgnoreCase("assigning")) {
+                holder.relative_layout_my_message.setVisibility(View.GONE);
+                holder.relative_layout_their_message.setVisibility(View.GONE);
+                holder.rl_assign.setVisibility(View.VISIBLE);
+                holder.rl_note.setVisibility(View.GONE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Spanned st = Html.fromHtml(msg_text, Html.FROM_HTML_MODE_COMPACT);
+                    CharSequence str = CommonMethods.trimTrailingWhitespace(st);
+                    holder.tv_assign_msg.setText(str);
+                } else {
+                    Spanned st1 = Html.fromHtml(msg_text);
+                    CharSequence str1 = CommonMethods.trimTrailingWhitespace(st1);
+                    holder.tv_assign_msg.setText(str1);
+                }
+                holder.txt_assign_agent_name.setText(strMsgDetails);
             } else {
                 holder.relative_layout_my_message.setVisibility(View.GONE);
                 holder.relative_layout_their_message.setVisibility(View.GONE);
                 holder.rl_note.setVisibility(View.GONE);
+                holder.rl_assign.setVisibility(View.GONE);
             }
             holder.iv_my_msg_img.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -236,30 +246,32 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_my_message, tv_their_message, tv_note, tv_agent_name, tv_note_ago, tv_cust_name, tv_incoming_msg_time,
-                tv_incoming_msg_time_ago, tv_agent_sender_name, tv_out_msg_actual_time, tv_agent_msg_ago;
-        RelativeLayout relative_layout_my_message, relative_layout_their_message, rl_note;
+        TextView tv_my_message, tv_their_message, tv_note, tv_agent_name, tv_assign_msg, txt_assign_agent_name, tv_incoming_msg_time,
+                tv_out_msg_actual_time;
+        RelativeLayout relative_layout_my_message, relative_layout_their_message, rl_note, rl_assign;
         ImageView iv_my_msg_img, iv_my_note_img, iv_tm_msg_img;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             relative_layout_my_message = itemView.findViewById(R.id.rl_my_msg);
-            relative_layout_their_message = itemView.findViewById(R.id.rl_tm_msg);
-            rl_note = itemView.findViewById(R.id.rl_note);
             tv_my_message = itemView.findViewById(R.id.tv_mm_message_body);
+            tv_out_msg_actual_time = itemView.findViewById(R.id.txt_out_msg_actual_time);
+            iv_my_msg_img = itemView.findViewById(R.id.iv_my_msg_img);
+
+            relative_layout_their_message = itemView.findViewById(R.id.rl_tm_msg);
             tv_their_message = itemView.findViewById(R.id.tv_tm_message_body);
+            tv_incoming_msg_time = itemView.findViewById(R.id.txt_actual_time);
+            iv_tm_msg_img = itemView.findViewById(R.id.iv_tm_msg_img);
+
+            rl_note = itemView.findViewById(R.id.rl_note);
             tv_note = itemView.findViewById(R.id.tv_note);
             tv_agent_name = itemView.findViewById(R.id.txt_agent_name);
-//            tv_note_ago = itemView.findViewById(R.id.txt_note_ago);
-//            tv_cust_name = itemView.findViewById(R.id.txt_cust_name);
-            tv_incoming_msg_time = itemView.findViewById(R.id.txt_actual_time);
-//            tv_incoming_msg_time_ago = itemView.findViewById(R.id.tv_cust_msg_ago);
-//            tv_agent_sender_name = itemView.findViewById(R.id.txt_agent_sender_name);
-            tv_out_msg_actual_time = itemView.findViewById(R.id.txt_out_msg_actual_time);
-//            tv_agent_msg_ago = itemView.findViewById(R.id.tv_agent_msg_ago);
-            iv_my_msg_img = itemView.findViewById(R.id.iv_my_msg_img);
             iv_my_note_img = itemView.findViewById(R.id.iv_my_note_img);
-            iv_tm_msg_img = itemView.findViewById(R.id.iv_tm_msg_img);
+
+            rl_assign = itemView.findViewById(R.id.rl_assign);
+            tv_assign_msg = itemView.findViewById(R.id.tv_assign_msg);
+            txt_assign_agent_name = itemView.findViewById(R.id.txt_assign_agent_name);
+
         }
     }
 }

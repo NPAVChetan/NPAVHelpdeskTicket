@@ -1,7 +1,5 @@
 package com.npav.npavhelpdeskticket.pojo;
 
-import androidx.annotation.NonNull;
-
 public class Ticket {
     public int ticket_id;
     public String cust_mobile;
