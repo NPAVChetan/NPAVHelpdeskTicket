@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_all_active">
+    app:startDestination="@+id/nav_assigned_to_me">
 
     <fragment
-        android:id="@+id/nav_all_active"
-        android:name="com.npav.npavhelpdeskticket.fragment.ActiveTicketFragment"
-        android:label="@string/menu_active"
-        android:tag="nav_all_active"
-        tools:layout="@layout/fragment_active_ticket">
+        android:id="@+id/nav_assigned_to_me"
+        android:name="com.npav.npavhelpdeskticket.fragment.AssignedTicketFragment"
+        android:label="@string/menu_assigned"
+        android:tag="nav_assigned_to_me"
+        tools:layout="@layout/fragment_assigned_ticket">
 
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
@@ -23,12 +23,19 @@
         tools:layout="@layout/fragment_home_second">
         <action
             android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_all_active" />
+            app:destination="@id/nav_assigned_to_me" />
 
         <argument
             android:name="myArg"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_all_active"
+        android:name="com.npav.npavhelpdeskticket.fragment.ActiveTicketFragment"
+        android:label="@string/menu_active"
+        android:tag="nav_all_active"
+        tools:layout="@layout/fragment_active_ticket" />
 
     <fragment
         android:id="@+id/nav_closed"
@@ -43,13 +50,6 @@
         android:label="@string/menu_deleted"
         android:tag="nav_deleted"
         tools:layout="@layout/fragment_deleted_ticket" />
-
-    <fragment
-        android:id="@+id/nav_assigned_to_me"
-        android:name="com.npav.npavhelpdeskticket.fragment.AssignedTicketFragment"
-        android:label="@string/menu_assigned"
-        android:tag="nav_assigned"
-        tools:layout="@layout/fragment_assigned_ticket" />
 
     <fragment
         android:id="@+id/nav_logout"

@@ -41,7 +41,7 @@ import static com.npav.npavhelpdeskticket.util.CommonMethods.showProgressDialog;
 
 public class
 DeletedTicketFragment extends Fragment {
-
+    private static final String TAG = DeletedTicketFragment.class.getName();
     TicketListAdapter ticketListAdapter;
     private onClickInterface onclickInterface;
     List<Tickets.Data> ticketList = new ArrayList<>();
@@ -95,7 +95,7 @@ DeletedTicketFragment extends Fragment {
         String token = sharedpreferences.getString("token", "");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date pre_date = new Date();
-        pre_date.setDate(pre_date.getDate() - 10);
+        pre_date.setDate(pre_date.getDate() - 200);
         String start = formatter.format(pre_date);
         Date post_date = new Date();
         post_date.setDate(post_date.getDate() + 2);
@@ -120,9 +120,9 @@ DeletedTicketFragment extends Fragment {
                             if (ticketList.size() > 0) {
                                 // Add or Update all tickets to database
                                 empty_view.setVisibility(View.GONE);
-                                db = new DatabaseHandler(getActivity());
-                                db.add_or_update_Ticket1(ticketList);
-                                ticketListAdapter = new TicketListAdapter(getActivity(), ticketList, onclickInterface);
+//                                db = new DatabaseHandler(getActivity());
+//                                db.add_or_update_Ticket1(ticketList);
+                                ticketListAdapter = new TicketListAdapter(getActivity(), ticketList, onclickInterface, TAG);
                                 recyclerView.setAdapter(ticketListAdapter);
 //                                recyclerView.smoothScrollToPosition(ticketList.size() - 1);
                             } else {

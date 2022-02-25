@@ -56,7 +56,7 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
             String msg_time = mTicketChatList.get(position).getTime_stamp();
             DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             DateFormat outputFormat = new SimpleDateFormat("'Date : 'd MMM\n'Time : 'KK:mm a");
-            System.out.println(outputFormat.format(inputFormat.parse(msg_time)));
+//            System.out.println(outputFormat.format(inputFormat.parse(msg_time)));
             String time = outputFormat.format(inputFormat.parse(msg_time));
             String[] strArr = time.split("\n");
             String time_am_pm = "00:00 am";
@@ -67,7 +67,7 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
                 String actual_time = strArr[1];
                 time_am_pm = actual_time.substring(7);
                 date_time = formatted_date + ", " + time_am_pm;
-                System.out.println(time_am_pm);
+//                System.out.println(time_am_pm);
             }
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -240,9 +240,20 @@ public class TicketChatAdapter extends RecyclerView.Adapter<TicketChatAdapter.My
         }
     }
 
+    public void add(Ticket.Data.TicketDetails lastMsg) {
+        mTicketChatList.add(lastMsg);
+        notifyItemInserted(mTicketChatList.size() - 1);
+    }
+
+    public void addAll(List<Ticket.Data.TicketDetails> moveResults) {
+        for (Ticket.Data.TicketDetails result : moveResults) {
+            add(result);
+        }
+    }
+
     @Override
     public int getItemCount() {
-        return mTicketChatList.size();
+        return mTicketChatList == null ? 0 : mTicketChatList.size();
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {

@@ -40,7 +40,7 @@ public class Tickets {
         this.data = data;
     }
 
-    public static class Data {
+    public static class Data implements Comparable, Cloneable {
         public String count;
         public String latest_message_time_stamp;
         public String time_stamp_latest_message;
@@ -355,6 +355,26 @@ public class Tickets {
                     ", mime_type='" + mime_type + '\'' +
                     ", name_message_sender='" + name_message_sender + '\'' +
                     '}';
+        }
+
+        @Override
+        public int compareTo(Object o) {
+            Data compare = (Data) o;
+            if (compare.ticket_id == this.ticket_id && compare.getMessage_text().equals(this.getMessage_text()) && compare.time_stamp_latest_message.equals(this.time_stamp_latest_message)) {
+                return 0;
+            }
+            return 1;
+        }
+
+        @Override
+        public Data clone() {
+            Data clone;
+            try {
+                clone = (Data) super.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e); //should not happen
+            }
+            return clone;
         }
     }
 }

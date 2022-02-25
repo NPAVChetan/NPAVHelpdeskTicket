@@ -1,9 +1,11 @@
 package com.npav.npavhelpdeskticket.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,6 @@ import com.npav.npavhelpdeskticket.activity.LoginActivity;
 import com.npav.npavhelpdeskticket.adapter.TicketListAdapter;
 import com.npav.npavhelpdeskticket.api.APIInterface;
 import com.npav.npavhelpdeskticket.api.RetrofitClient;
-import com.npav.npavhelpdeskticket.database.DatabaseHandler;
 import com.npav.npavhelpdeskticket.pojo.Tickets;
 import com.npav.npavhelpdeskticket.util.CommonMethods;
 import com.npav.npavhelpdeskticket.util.Constants;
@@ -31,6 +32,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,13 +45,13 @@ import static com.npav.npavhelpdeskticket.util.CommonMethods.showProgressDialog;
 
 public class ActiveTicketFragment extends Fragment {
 
-    TicketListAdapter ticketListAdapter;
+    private static final String TAG = ActiveTicketFragment.class.getName();
+    private TicketListAdapter ticketListAdapter;
     private onClickInterface onclickInterface;
-    List<Tickets.Data> ticketList = new ArrayList<>();
-    RecyclerView recyclerView;
-    SharedPreferences sharedpreferences;
-    DatabaseHandler db;
-    TextView empty_view;
+    private List<Tickets.Data> ticketList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private SharedPreferences sharedpreferences;
+    private TextView empty_view;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,21 +62,22 @@ public class ActiveTicketFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        onclickInterface = new onClickInterface() {
-            @Override
-            public void setClick(int abc) {
-                Tickets.Data obj = ticketList.get(abc);
-                String ticket_id = String.valueOf(obj.getTicket_id());
-                String ticket_type = obj.getTicket_type();
-                Constants.KEY_TICKET_ID = ticket_id;
-                Constants.KEY_TICKET_TYPE = ticket_type;
-                ticketListAdapter.notifyDataSetChanged();
-            }
+        sharedpreferences = requireActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
+                Context.MODE_PRIVATE);
+
+        onclickInterface = abc -> {
+            Tickets.Data obj = ticketList.get(abc);
+            String ticket_id = String.valueOf(obj.getTicket_id());
+            String ticket_type = obj.getTicket_type();
+            Constants.KEY_TICKET_ID = ticket_id;
+            Constants.KEY_TICKET_TYPE = ticket_type;
+            ticketListAdapter.notifyDataSetChanged();
         };
 
-        if (CommonMethods.CheckInternetConnection(getActivity())) {
+        if (CommonMethods.CheckInternetConnection(requireActivity())) {
             callGetTicketAPI();
         } else {
+            Log.d(TAG, "Retrieve data from SQLITE");
             /*db = new DatabaseHandler(getActivity());
             ticketList = db.getAllTickets1();
             if (ticketList.size() > 0) {
@@ -89,47 +92,47 @@ public class ActiveTicketFragment extends Fragment {
     }
 
     private void callGetTicketAPI() {
-//        Toast.makeText(getActivity(), "All Active", Toast.LENGTH_SHORT).show();
         showProgressDialog(getActivity(), "");
-        sharedpreferences = getActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
-                Context.MODE_PRIVATE);
         String token = sharedpreferences.getString("token", "");
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Date pre_date = new Date();
-        pre_date.setDate(pre_date.getDate() - 30);
-        String start = formatter.format(pre_date);
-        Date post_date = new Date();
-        post_date.setDate(post_date.getDate() + 2);
-        String end = formatter.format(post_date);
+        Calendar pre_date = Calendar.getInstance();
+        pre_date.add(Calendar.DATE, -200);
+        Date startDate = pre_date.getTime();
+        String start = formatter.format(startDate);
+        Calendar post_date = Calendar.getInstance();
+        post_date.add(Calendar.DATE, +2);
+        Date endDate = post_date.getTime();
+        String end = formatter.format(endDate);
         String url = APIInterface.BASE_URL + "api/ticket/web/list/all/active/" + start + "/" + end;
         Call<Tickets> call = RetrofitClient.getInstance().getMyApi().getticketlist("bearer " + token, url);
         call.enqueue(new Callback<Tickets>() {
             @Override
-            public void onResponse(Call<Tickets> call, Response<Tickets> response) {
+            public void onResponse(@NonNull Call<Tickets> call, @NonNull Response<Tickets> response) {
                 Tickets ticketdata = response.body();
                 String status = null;
                 String info = null;
 
                 if (ticketdata != null) {
                     status = ticketdata.getStatus();
+                    info = ticketdata.getInfo();
                     Tickets.Data[] arr_data = ticketdata.getData();
-                    ticketList = Arrays.asList(arr_data);
+                    if (arr_data != null) {
+                        ticketList = new ArrayList<>(Arrays.asList(arr_data));
+                    }
                 }
                 if (status != null) {
                     if (status.equals("true")) {
-                        if (ticketList != null) {
-                            if (ticketList.size() > 0) {
-                                // Add or Update all tickets to database
-                                empty_view.setVisibility(View.GONE);
-                                db = new DatabaseHandler(getActivity());
-                                db.add_or_update_Ticket1(ticketList);
-                                ticketListAdapter = new TicketListAdapter(getActivity(), ticketList, onclickInterface);
-                                recyclerView.setAdapter(ticketListAdapter);
-//                                recyclerView.smoothScrollToPosition(ticketList.size() - 1);
-                            } else {
-                                recyclerView.setVisibility(View.GONE);
-                                empty_view.setVisibility(View.VISIBLE);
-                            }
+                        if (ticketList.size() > 0) {
+                            // Add or Update all tickets to database
+                            empty_view.setVisibility(View.GONE);
+//                            DatabaseHandler db = new DatabaseHandler(getActivity());
+//                            db.add_or_update_Ticket1(ticketList);
+                            ticketListAdapter = new TicketListAdapter(getActivity(), ticketList, onclickInterface, TAG);
+                            recyclerView.setAdapter(ticketListAdapter);
+                        } else {
+                            recyclerView.setVisibility(View.GONE);
+                            empty_view.setVisibility(View.VISIBLE);
                         }
 
                     } else if (status.equals("false")) {
@@ -138,40 +141,43 @@ public class ActiveTicketFragment extends Fragment {
                             editor.putString("isLoggedIn", "");
                             editor.apply();
                             startActivity(new Intent(getActivity(), LoginActivity.class));
-                            getActivity().finish();
+                            requireActivity().finish();
                         } else {
                             Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
                         }
                     } else {
                         try {
-                            JSONObject jObjError = new JSONObject(response.errorBody().string());
-                            info = jObjError.getString("info");
-                            if (info.equalsIgnoreCase("TokenExpiredError")) {
-                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString("isLoggedIn", "");
-                                editor.apply();
-                                startActivity(new Intent(getActivity(), LoginActivity.class));
-                                getActivity().finish();
-                            } else {
-                                Toast.makeText(getActivity(), jObjError.getString("info"), Toast.LENGTH_LONG).show();
+                            if (response.errorBody() != null) {
+                                JSONObject jObjError = new JSONObject(response.errorBody().string());
+                                info = jObjError.getString("info");
+                                if (info.equalsIgnoreCase("invalid signature") || info.equalsIgnoreCase("TokenExpiredError")) {
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString("isLoggedIn", "");
+                                    editor.apply();
+                                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                                    requireActivity().finish();
+                                } else {
+                                    Toast.makeText(getActivity(), jObjError.getString("info"), Toast.LENGTH_LONG).show();
+                                }
                             }
-
                         } catch (Exception e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 } else {
                     try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        String in_fo = jObjError.getString("info");
-                        if (in_fo.equalsIgnoreCase("invalid signature")) {
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString("isLoggedIn", "");
-                            editor.apply();
-                            startActivity(new Intent(getActivity(), LoginActivity.class));
-                            getActivity().finish();
+                        if (response.errorBody() != null) {
+                            JSONObject jObjError = new JSONObject(response.errorBody().string());
+                            String in_fo = jObjError.getString("info");
+                            if (in_fo.equalsIgnoreCase("invalid signature") || in_fo.equalsIgnoreCase("TokenExpiredError")) {
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString("isLoggedIn", "");
+                                editor.apply();
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                requireActivity().finish();
+                            }
+                            Toast.makeText(getActivity(), jObjError.getString("info"), Toast.LENGTH_LONG).show();
                         }
-                        Toast.makeText(getActivity(), jObjError.getString("info"), Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -180,7 +186,7 @@ public class ActiveTicketFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Tickets> call, Throwable t) {
+            public void onFailure(@NonNull Call<Tickets> call, @NonNull Throwable t) {
                 hideProgressDialog();
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }

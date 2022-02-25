@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:gravity="center"
-                android:text="@string/version_1_0" />
+                android:text="@string/version_1_1" />
 
         </LinearLayout>
 

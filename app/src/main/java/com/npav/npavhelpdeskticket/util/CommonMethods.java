@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -25,6 +26,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.npav.npavhelpdeskticket.pojo.Tickets;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommonMethods {
@@ -246,4 +253,40 @@ public class CommonMethods {
         return source.subSequence(0, i + 1);
     }
 
+    /*public void saveAllTickets(ArrayList<Tickets.Data> list, String key) {
+        sharedpreferences = requireActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    public ArrayList<Tickets.Data> getAllTickets(String key) {
+        sharedpreferences = requireActivity().getSharedPreferences(Constants.LOGIN_FILE_NAME,
+                Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedpreferences.getString(key, null);
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }*/
+
+    public static int getCurrentFibonacci(int item) {
+        int maxNumber = 1000;
+        int previousNumber = 0;
+        int nextNumber = 1;
+
+        int iterator = 0;
+        for (int i = 1; i <= maxNumber; ++i) {
+            int sum = previousNumber + nextNumber;
+            previousNumber = nextNumber;
+            nextNumber = sum;
+            if (iterator++ == item) {
+                return nextNumber;
+            }
+        }
+        return maxNumber;
+    }
 }

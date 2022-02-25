@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        findViewAllById();
         permissions = new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -78,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE);
 
         String isLoggedIn = User_Login_Info.getString("isLoggedIn", "");
+        String Mob = User_Login_Info.getString("Mob", "");
+        String Pass = User_Login_Info.getString("Password", "");
 
         /*this.finish();
         Intent in1 = new Intent(context, TicketChatActivity.class);
@@ -87,8 +89,14 @@ public class LoginActivity extends AppCompatActivity {
             this.finish();
             Intent in = new Intent(context, MainActivity.class);
             startActivity(in);
+        } else {
+            if (Mob.length() > 0) {
+                txtUserName.setText(Mob);
+            }
+            if (Pass.length() > 0) {
+                txtPassword.setText(Pass);
+            }
         }
-        findViewAllById();
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,6 +236,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = User_Login_Info.edit();
                         editor.putString("token", token);
                         editor.putString("Mobile", prefix + Username);
+                        editor.putString("Mob", txtUserName.getText().toString().trim());
                         editor.putString("Password", Password);
                         editor.putString("isLoggedIn", "yes");
                         editor.apply();
@@ -273,12 +282,15 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MULTIPLE_PERMISSIONS: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permissions granted.
+                    Toast.makeText(getApplicationContext(), "PERMISSION GRANTED", Toast.LENGTH_SHORT).show();
                 } else {
                     // no permissions granted.
+                    Toast.makeText(getApplicationContext(), "PERMISSION DENIEDSS", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
